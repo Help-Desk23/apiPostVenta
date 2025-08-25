@@ -8,6 +8,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const { clienteSocket } = require('./controllers/cliente/cliente');
 const clienteRouter = require('./router/cliente/clienteRouter');
+const { marcaSocket } = require('./controllers/marca/marca');
+const marcaRouter = require('./router/marca/marcaRouter');
+const { tallerSocket } = require('./controllers/taller/taller');
+const tallerRouter = require('./router/taller/tallerRouter');
 
 const server = http.createServer(app);
 
@@ -35,6 +39,8 @@ io.on('connection', (socket) => {
     console.log("Cliente conectado", socket.id);
 
     socket.on('obtenerCliente', () => clienteSocket(socket));
+    socket.on('obtenerMarca', () => marcaSocket(socket));
+    socket.on('obtenerTaller', () => tallerSocket(socket));
 
     socket.on('disconnect', () => {
         console.log("Cliente desconectado", socket.id);
@@ -47,6 +53,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/', clienteRouter);
+app.use('/', marcaRouter);
+app.use('/', tallerRouter);
 
 const PORT = process.env.API_PORT || 3001;
 server.listen(PORT, () => {
