@@ -12,6 +12,12 @@ const { marcaSocket } = require('./controllers/marca/marca');
 const marcaRouter = require('./router/marca/marcaRouter');
 const { tallerSocket } = require('./controllers/taller/taller');
 const tallerRouter = require('./router/taller/tallerRouter');
+const { mecanicoSocket } = require('./controllers/mecanico/mecanico');
+const mecanicoRouter = require('./router/mecanico/mecanicoRouter');
+const { serviciosSocket } = require('./controllers/servicios/servicios');
+const serviciosRouter = require('./router/servicios/serviciosRouter');
+const { tallerServSocket } = require('./controllers/tallerServicios/tallerServicios');
+const tallerServRouter = require('./router/tallerServicios/tallerServRouter');
 
 const server = http.createServer(app);
 
@@ -41,6 +47,9 @@ io.on('connection', (socket) => {
     socket.on('obtenerCliente', () => clienteSocket(socket));
     socket.on('obtenerMarca', () => marcaSocket(socket));
     socket.on('obtenerTaller', () => tallerSocket(socket));
+    socket.on('obtenerMecanico', () => mecanicoSocket(socket));
+    socket.on('obtenerServicios', () => serviciosSocket(socket));
+    socket.on('obtenertallerServ', () => tallerServSocket(socket));
 
     socket.on('disconnect', () => {
         console.log("Cliente desconectado", socket.id);
@@ -55,6 +64,9 @@ app.get('/', (req, res) => {
 app.use('/', clienteRouter);
 app.use('/', marcaRouter);
 app.use('/', tallerRouter);
+app.use('/', mecanicoRouter);
+app.use('/', serviciosRouter);
+app.use('/', tallerServRouter);
 
 const PORT = process.env.API_PORT || 3001;
 server.listen(PORT, () => {
