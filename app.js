@@ -18,6 +18,8 @@ const { serviciosSocket } = require('./controllers/servicios/servicios');
 const serviciosRouter = require('./router/servicios/serviciosRouter');
 const { tallerServSocket } = require('./controllers/tallerServicios/tallerServicios');
 const tallerServRouter = require('./router/tallerServicios/tallerServRouter');
+const { citasSocket } = require('./controllers/citas/citas');
+const citasRouter = require('./router/citas/citarRouter');
 
 const server = http.createServer(app);
 
@@ -50,6 +52,7 @@ io.on('connection', (socket) => {
     socket.on('obtenerMecanico', () => mecanicoSocket(socket));
     socket.on('obtenerServicios', () => serviciosSocket(socket));
     socket.on('obtenertallerServ', () => tallerServSocket(socket));
+    socket.on('obtenerCitas', () => citasSocket(socket));
 
     socket.on('disconnect', () => {
         console.log("Cliente desconectado", socket.id);
@@ -67,6 +70,7 @@ app.use('/', tallerRouter);
 app.use('/', mecanicoRouter);
 app.use('/', serviciosRouter);
 app.use('/', tallerServRouter);
+app.use('/', citasRouter);
 
 const PORT = process.env.API_PORT || 3001;
 server.listen(PORT, () => {

@@ -2,7 +2,7 @@ const db = require('../../config/db');
 
 //Controlador Socket para mostrar todo los talleres
 
-const tallerSocket = async (socket) =>{
+const tallerSocket = async (socket) => {
     const query = 'SELECT * FROM taller';
     try{
         const [rows] = await db.promise().query(query);
